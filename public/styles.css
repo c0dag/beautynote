@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+CU&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+
+.sidebar-icons {
+    font-size: 25px;
+    color: black;
+    font-weight: bold;
+}
+
+.nav-link.active {
+    background-color: #efcfd4 !important; 
+    color: white !important; 
+}
+
+.content-box{
+    background-color: #f1f1f1 !important;
+}
+
+.new-content-section {
+    height: 300px; 
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+.rotatingText { 
+    margin-top: -12.5%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+  
+.rotatingText-content { 
+    position: relative;
+    width: 100%;
+}
+  
+.rotatingText-description { 
+    font-family: "Playwrite CU", cursive;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    margin: 0;
+}
+
+@media (min-width: 768px) { 
+    .rotatingText-description {
+      font-size: 18px;
+    }
+}
+  
+.rotatingText-adjective { 
+    font-family: "Dancing Script", cursive;
+    font-size: 40px;
+    left: 0;
+    margin-bottom: 0;
+    margin-top: 30px;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    transition: opacity 0.5s ease;
+}
+
+@media (min-width: 768px) { 
+    .rotatingText-adjective {
+        font-size: 70px;
+    }
+}
+
+.rotatingText-adjective:nth-of-type(1) { 
+    animation: rotate-text-up 1.5s 0.75s forwards; 
+}
+
+.rotatingText-adjective:nth-of-type(2) { 
+    animation: rotate-text-up 1.5s 2s forwards; 
+}
+
+.rotatingText-adjective:nth-of-type(3) { 
+    animation: fade-text-in 1.5s 3.25s forwards;
+}
+  
+@keyframes rotate-text-up { 
+    0% {
+        transform: translate3d(0, 80px, 0);
+        opacity: 0;
+    }
+    
+    20%, 80% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    
+    100% {
+        transform: translate3d(0, -40px, 0);
+        opacity: 0;
+    }
+}
+  
+@keyframes fade-text-in { 
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 80px, 0);
+    }
+    
+    50%, 100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* public/styles.css */
+
+
+
+/* Basic styling for the calendar and event details */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  #calendar {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+  
+  #event-details {
+    max-width: 900px;
+    margin: 20px auto;
+  }
+  
+  #events-list p {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+  }
+  
+  /* Modal styling */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -10px;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Calendar day styling */
+  .fc-daygrid-day {
+    position: relative;
+  }
+  
+  /* Free day */
+  .fc-daygrid-day.free-day {
+    background-color: rgba(0, 128, 0, 0.200) !important;
+  }
+  
+  /* Partially booked day */
+  .fc-daygrid-day.partially-booked-day {
+    background-color: rgba(255, 166, 0, 0.200) !important;
+  }
+  
+  /* Fully booked day */
+  .fc-daygrid-day.fully-booked-day {
+    background-color: rgba(255, 0, 0, 0.200) !important;
+  }
+  
+  /* Selected day */
+  .fc-daygrid-day.selected-day {
+    background-color: rgba(0, 0, 255, 0.200) !important;
+  }
+  
+  /* Ensure that selected day overrides other styles */
+  .fc-daygrid-day.selected-day.free-day,
+  .fc-daygrid-day.selected-day.partially-booked-day,
+  .fc-daygrid-day.selected-day.fully-booked-day {
+    background-color: rgba(0, 0, 255, 0.200) !important;
+  }
+  
+  /* Adjust text color for better readability */
+  .fc-daygrid-day.free-day,
+  .fc-daygrid-day.partially-booked-day,
+  .fc-daygrid-day.fully-booked-day,
+  .fc-daygrid-day.selected-day {
+    color: rgb(2, 0, 0) !important;
+  }
+  
+  /* Optional: Style for the event details */
+  #event-details h2 {
+    margin-top: 20px;
+  }
+  
+  #add-event-btn {
+    margin-top: 10px;
+  }
+  
+  /* Optional: Style the form inputs */
+  #event-form label {
+    font-weight: bold;
+  }
+  
+  #event-form input[type="text"],
+  #event-form select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+    box-sizing: border-box;
+  }
+  
+  #event-form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #event-form input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  

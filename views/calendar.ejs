@@ -1,0 +1,90 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Calendar</title>
+  <!-- FullCalendar CSS -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css" type="text/css">
+  <script src="https://apis.google.com/js/api.js"></script> <!-- API do Google -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body class="d-flex" style="height: 100vh;">
+        <!-- Sidebar -->
+        <div class="d-flex flex-column flex-shrink-0 bg-light vh-100" style="width: 4.5rem;">
+            <a href="index.html" class="d-block p-3 link-dark text-decoration-none d-flex justify-content-center align-items-center" title="Icon-only">
+                <img src="imgs/Butterfly-icon.png" alt="Butterfly" height="50px" width="50px">
+            </a>
+            <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link py-3 border-bottom" aria-current="page" title="Home">
+                        <i class="bi bi-house sidebar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="calendar.html" class="nav-link active py-3 border-bottom" title="Dashboard">
+                        <i class="bi bi-calendar sidebar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="servicos.html" class="nav-link py-3 border-bottom" title="Cadastro">
+                        <i class="bi bi-clipboard2-plus sidebar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="cadastro_clientes.html" class="nav-link py-3 border-bottom" title="Cadastro" data-bs-toggle="tooltip"
+                        data-bs-placement="right" data-bs-original-title="Orders">
+                        <i class="bi bi-person-plus sidebar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="financeiro.html" class="nav-link py-3 border-bottom" title="Financeiro">
+                        <i class="bi bi-graph-up sidebar-icons"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+  <div id='calendar'></div>
+  <div id='event-details'>
+    <h2>Events</h2>
+    <div id="events-list"></div>
+    <button id="add-event-btn" style="display: none;">Add Event</button>
+  </div>
+
+  <!-- Event Modal -->
+  <div id="event-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add Event</h2>
+      <form id="event-form">
+        <label for="client-name">Client Name:</label><br>
+        <input type="text" id="client-name" name="clientName" required><br>
+
+        <label for="service">Service:</label><br>
+        <input type="text" id="service" name="service" required><br>
+
+        <!-- Time Dropdown -->
+        <label for="event-time">Time:</label><br>
+        <select id="event-time" name="eventTime" required>
+          <!-- Options will be populated dynamically -->
+        </select><br><br>
+
+        <input type="submit" value="Add Event">
+      </form>
+    </div>
+  </div>
+</body>
+
+  <!-- FullCalendar JS -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Custom JS -->
+  <script src="/script.js"></script>
+</body>
+</html>
