@@ -122,134 +122,198 @@
 /* public/styles.css */
 
 
+/* Importação de fontes */
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+CU&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-/* Basic styling for the calendar and event details */
+/* Variáveis de cores */
+:root {
+    --cor-principal: #efcfd4;
+    --cor-mais-escura: #D4B2B8;
+    --cor-azul: #CFD4EF;
+    --cor-verde: #BFD9CD;
+    --cinza-escuro: #666;
+    --cinza-claro: #e0e0e0;
+    --branco: #fff;
+}
+
+/* Reset e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-  }
-  
-  #calendar {
-    max-width: 900px;
-    margin: 40px auto;
-  }
-  
-  #event-details {
-    max-width: 900px;
-    margin: 20px auto;
-  }
-  
-  #events-list p {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 0;
-  }
-  
-  /* Modal styling */
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4); /* Black with opacity */
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 300px;
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: -10px;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  /* Calendar day styling */
-  .fc-daygrid-day {
-    position: relative;
-  }
-  
-  /* Free day */
-  .fc-daygrid-day.free-day {
-    background-color: rgba(0, 128, 0, 0.200) !important;
-  }
-  
-  /* Partially booked day */
-  .fc-daygrid-day.partially-booked-day {
-    background-color: rgba(255, 166, 0, 0.200) !important;
-  }
-  
-  /* Fully booked day */
-  .fc-daygrid-day.fully-booked-day {
-    background-color: rgba(255, 0, 0, 0.200) !important;
-  }
-  
-  /* Selected day */
-  .fc-daygrid-day.selected-day {
-    background-color: rgba(0, 0, 255, 0.200) !important;
-  }
-  
-  /* Ensure that selected day overrides other styles */
-  .fc-daygrid-day.selected-day.free-day,
-  .fc-daygrid-day.selected-day.partially-booked-day,
-  .fc-daygrid-day.selected-day.fully-booked-day {
-    background-color: rgba(0, 0, 255, 0.200) !important;
-  }
-  
-  /* Adjust text color for better readability */
-  .fc-daygrid-day.free-day,
-  .fc-daygrid-day.partially-booked-day,
-  .fc-daygrid-day.fully-booked-day,
-  .fc-daygrid-day.selected-day {
-    color: rgb(2, 0, 0) !important;
-  }
-  
-  /* Optional: Style for the event details */
-  #event-details h2 {
-    margin-top: 20px;
-  }
-  
-  #add-event-btn {
-    margin-top: 10px;
-  }
-  
-  /* Optional: Style the form inputs */
-  #event-form label {
-    font-weight: bold;
-  }
-  
-  #event-form input[type="text"],
-  #event-form select {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px 0;
-    box-sizing: border-box;
-  }
-  
-  #event-form input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  #event-form input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
+  background: #9B59B6;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Contêiner do calendário */
+#calendar {
+  width: 90%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  padding: 20px;
+  margin: 40px auto;
+}
+
+/* Cabeçalho do calendário */
+.fc .fc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+.fc .fc-toolbar h2 {
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.fc .fc-button-group .fc-button {
+  background-color: var(--cor-principal);
+  border: none;
+  color: #fff;
+  margin: 0 5px;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.fc .fc-button-group .fc-button:hover {
+  background-color: var(--cor-mais-escura);
+}
+
+.fc .fc-button-group .fc-button:disabled {
+  background-color: #ccc;
+  color: #666;
+}
+
+/* Dias da semana */
+.fc .fc-col-header-cell {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.fc .fc-col-header-cell-cushion {
+  font-size: 1.07rem;
+}
+
+/* Dias do calendário */
+.fc .fc-daygrid-day {
+  height: 100px; /* Ajuste conforme necessário */
+  border: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.fc .fc-daygrid-day-number {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: #9B59B6;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  color: #fff;
+}
+
+.fc .fc-daygrid-day:hover {
+  background-color: #f9f9f9;
+}
+
+/* Eventos */
+.fc .fc-event {
+  background-color: var(--cor-principal);
+  border: none;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.fc .fc-event:hover {
+  background-color: var(--cor-mais-escura);
+}
+
+/* Modal de evento */
+#event-modal {
+  display: none; /* O modal é ocultado por padrão */
+  position: fixed;
+  z-index: 999; /* Certifique-se de que está acima de outros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Habilita rolagem se necessário */
+  background-color: rgba(0,0,0,0.4); /* Fundo semi-transparente */
+}
+
+#event-modal .modal-content {
+  background-color: #fff;
+  margin: 10% auto; /* Centraliza verticalmente */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Largura do modal */
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+#event-modal .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#event-modal .close:hover,
+#event-modal .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#event-modal h2 {
+  margin-bottom: 20px;
+}
+
+#event-modal label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+#event-modal input[type="text"],
+#event-modal select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+#event-modal input[type="submit"] {
+  margin-top: 20px;
+  background-color: var(--cor-principal);
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#event-modal input[type="submit"]:hover {
+  background-color: var(--cor-mais-escura);
+}
