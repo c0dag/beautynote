@@ -1,10 +1,10 @@
 <!-- views/index.ejs -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Calendar</title>
+  <title>Calendario</title>
   <!-- FullCalendar CSS -->
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
   <!-- Custom CSS -->
@@ -51,25 +51,27 @@
         </div>
   <div id='calendar'></div>
   <div id='event-details'>
-    <h2>Events</h2>
+    <h2>Eventos</h2>
     <div id="events-list"></div>
-    <button id="add-event-btn" style="display: none;">Add Event</button>
+    <button id="add-event-btn" style="display: none;">Adicionar Evento</button>
+    <button id="delete-event-btn" style="display: block;">Deletar Evento</button>
+
   </div>
 
   <!-- Event Modal -->
   <div id="event-modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Add Event</h2>
+      <h2>Adicionar Evento</h2>
       <form id="event-form">
-        <label for="client-name">Client Name:</label><br>
+        <label for="client-name">Nome do Cliente:</label><br>
         <input type="text" id="client-name" name="clientName" required><br>
 
-        <label for="service">Service:</label><br>
+        <label for="service">Serviço:</label><br>
         <input type="text" id="service" name="service" required><br>
 
         <!-- Time Dropdown -->
-        <label for="event-time">Time:</label><br>
+        <label for="event-time">Horario:</label><br>
         <select id="event-time" name="eventTime" required>
           <!-- Options will be populated dynamically -->
         </select><br><br>

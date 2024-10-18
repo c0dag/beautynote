@@ -21,15 +21,6 @@
     text-align: center;
 }
 
-
-
-
-
-
-
-
-
-
 .rotatingText { 
     margin-top: -12.5%; 
     display: flex;
@@ -121,7 +112,6 @@
 
 /* public/styles.css */
 
-
 /* Importação de fontes */
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+CU&family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
@@ -176,8 +166,10 @@ body {
 .fc .fc-toolbar h2 {
   font-size: 1.45rem;
   font-weight: 500;
+  color: #9B59B6; /* Cor de destaque no título */
 }
 
+/* Botões da barra de ferramentas */
 .fc .fc-button-group .fc-button {
   background-color: var(--cor-principal);
   border: none;
@@ -185,6 +177,7 @@ body {
   margin: 0 5px;
   padding: 8px 12px;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .fc .fc-button-group .fc-button:hover {
@@ -196,7 +189,7 @@ body {
   color: #666;
 }
 
-/* Dias da semana */
+/* Dias da semana (cabeçalho) */
 .fc .fc-col-header-cell {
   background-color: #f2f2f2;
   color: #333;
@@ -206,16 +199,18 @@ body {
 }
 
 .fc .fc-col-header-cell-cushion {
-  font-size: 1.07rem;
+  font-size: 1.1rem; /* Aumentado para melhor clareza */
 }
 
-/* Dias do calendário */
+/* Dias do calendário (celulas normais) */
 .fc .fc-daygrid-day {
-  height: 100px; /* Ajuste conforme necessário */
+  height: 100px;
   border: 1px solid #e0e0e0;
   position: relative;
+  transition: background-color 0.2s ease;
 }
 
+/* Número do dia */
 .fc .fc-daygrid-day-number {
   position: absolute;
   top: 5px;
@@ -224,16 +219,29 @@ body {
   color: #333;
 }
 
+/* Efeito de hover nos dias */
+.fc .fc-daygrid-day:hover {
+  background-color: #f0f0f0; /* Cor sutil de fundo ao passar o mouse */
+  cursor: pointer;
+}
+
+/* Marcando o dia de hoje */
 .fc .fc-daygrid-day.fc-day-today {
-  background-color: #9B59B6;
+  background-color: #c18fd4;
+  color: white;
 }
 
 .fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
   color: #fff;
 }
 
-.fc .fc-daygrid-day:hover {
-  background-color: #f9f9f9;
+/* Dia ativo (selecionado) */
+.fc-day-active {
+  background-color: #efcfd4 !important;
+}
+
+.fc .fc-daygrid-day.fc-day-active .fc-daygrid-day-number {
+  color: #fff; /* Texto branco no dia ativo */
 }
 
 /* Eventos */
@@ -316,4 +324,155 @@ body {
 
 #event-modal input[type="submit"]:hover {
   background-color: var(--cor-mais-escura);
+}
+
+/* Estilos para o contêiner de detalhes do evento */
+#event-details {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin-right: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Título da seção de eventos */
+#event-details h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #9B59B6;
+}
+
+/* Lista de eventos */
+#event-details #events-list {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Estilo dos itens da lista de eventos */
+#event-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#event-details li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#event-details li:last-child {
+  border-bottom: none;
+}
+
+/* Botão Adicionar Evento */
+#event-details #add-event-btn {
+  background-color: #9B59B6;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+#event-details #add-event-btn:hover {
+  background-color: #8e44ad;
+}
+
+#event-details {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+/* Personalizar o título do calendário */
+.fc-toolbar-title {
+  font-weight: 700 !important;        /* Deixar o texto bem grosso */
+  font-size: 1.8rem !important;
+  color: #9B59B6;            /* Alterar a cor para um roxo marcante */
+  text-transform: capitalize; /* Capitalizar as primeiras letras */
+  letter-spacing: 1px;       /* Adicionar espaçamento entre as letras */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Adicionar sombra ao texto */
+}
+/* Forçar a estilização dos botões "prev" e "next" */
+.fc .fc-toolbar-chunk .fc-prev-button, 
+.fc .fc-toolbar-chunk .fc-next-button {
+  background-color: #9B59B6 !important;  /* Cor de fundo roxa */
+  border: none !important;               /* Remover borda */
+  color: #fff !important;                /* Cor branca para a seta */
+  border-radius: 5px !important;         /* Bordas arredondadas */
+  transition: background-color 0.3s ease !important;  /* Efeito de transição */
+}
+
+/* Alterar cor ao passar o mouse */
+.fc .fc-toolbar-chunk .fc-prev-button:hover, 
+.fc .fc-toolbar-chunk .fc-next-button:hover {
+  background-color: #7e4297 !important;  /* Cor roxa mais escura ao hover */
+}
+
+/* Garantir que os ícones das setas também mudem de cor */
+.fc .fc-toolbar-chunk .fc-prev-button i, 
+.fc .fc-toolbar-chunk .fc-next-button i {
+  color: #fff !important;  /* Cor branca para os ícones de seta */
+}
+#event-details {
+  position: absolute;     /* Faz com que a div se posicione independentemente */
+  right: 180px;
+}
+#calendar {
+  position: relative;     /* Faz com que a div se posicione independentemente */
+  right: 180px;
+}
+/* Personalizar a cor e fonte dos dias da semana no calendário */
+.fc .fc-col-header-cell {
+  font-family: 'Poppins', sans-serif; /* Alterar a fonte */
+  font-size: 1rem;                  /* Tamanho da fonte */
+  color: #6f5fc9;                     /* Cor roxa */
+  text-transform: uppercase;          /* Transformar em maiúsculas */
+  font-weight: 400;                  /* Deixar o texto em negrito */
+}
+
+/* Para estilizar o link (a tag <a> dos dias da semana) */
+.fc .fc-col-header-cell a {
+  color: #6262a1 !important;          /* Cor do link para roxo */
+  text-decoration: none;              /* Remover sublinhado */
+}
+
+/* Efeito hover no link dos dias da semana */
+.fc .fc-col-header-cell a:hover {
+  color: #5e5dad !important;          /* Cor roxa mais escura no hover */
+  text-decoration: underline;         /* Adicionar sublinhado no hover */
+}
+#delete-event-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  display: block;  /* Garantir que o botão seja exibido como bloco */
+  margin-top: 10px;  /* Adicionar um espaço entre os botões */
+}
+
+#delete-event-btn:hover {
+  background-color: #c0392b;  /* Cor mais escura no hover */
+}
+
+/* Estilizar o evento selecionado */
+.selected-event {
+  background-color: #f8d7da; /* Cor de fundo vermelha suave para destacar */
+  border: 1px solid #f5c6cb; /* Borda para destacar o evento selecionado */
+  padding: 5px;
+  border-radius: 5px;
 }
