@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Clientes - BeautyNote</title>
+    <title>Cadastro de Serviços - BeautyNote</title>
     <link rel="stylesheet" href="styles.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -137,162 +138,181 @@
         </ul>
     </div>
 
-    <!-- Conteúdo Principal -->
+    <!-- Main Content -->
     <div class="flex-grow-1 d-flex flex-column content-box">
         <div class="container mt-5">
-            <h1 class="text-center mb-4">Cadastro de Clientes</h1>
+            <h1 class="text-center mb-4">Cadastro de Serviços</h1>
 
             <!-- Botões de Ação -->
             <div class="action-buttons text-center mb-4">
-                <button class="btn btn-lg btn-custom" data-bs-toggle="modal" data-bs-target="#addClientModal">Adicionar Novo Cliente</button>
-                <button class="btn btn-custom" id="moveUpClientBtn" disabled><i class="bi bi-arrow-up"></i></button>
-                <button class="btn btn-custom" id="moveDownClientBtn" disabled><i class="bi bi-arrow-down"></i></button>
-                <button class="btn btn-custom" id="deleteClientBtn" disabled><i class="bi bi-trash"></i></button>
+                <button class="btn btn-lg btn-custom" data-bs-toggle="modal" data-bs-target="#addServiceModal">Adicionar
+                    Novo Serviço</button>
+                <button class="btn btn-custom" id="moveUpServiceBtn" disabled><i class="bi bi-arrow-up"></i></button>
+                <button class="btn btn-custom" id="moveDownServiceBtn" disabled><i
+                        class="bi bi-arrow-down"></i></button>
+                <button class="btn btn-custom" id="deleteServiceBtn" disabled><i class="bi bi-trash"></i></button>
                 <button class="btn btn-custom" id="refreshPageBtn"><i class="bi bi-arrow-clockwise"></i></button>
             </div>
 
-            <!-- Tabela para exibir clientes cadastrados -->
+            <!-- Tabela para exibir serviços cadastrados -->
             <div class="table-responsive">
                 <table class="table table-bordered table-striped text-center">
                     <thead>
                         <tr>
-                            <th>Nome do Cliente</th>
-                            <th>Endereço</th>
-                            <th>Celular</th>
+                            <th>Nome do Serviço</th>
+                            <th>Valor (R$)</th>
+                            <th>Categoria</th>
                         </tr>
                     </thead>
-                    <tbody id="clientsTable">
-                        <!-- Clientes serão carregados dinamicamente -->
+                    <tbody id="servicesTable">
+                        <!-- Serviços serão carregados dinamicamente -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-    <!-- Modal de Adição de Cliente -->
-    <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+    <!-- Modal de Adição de Serviço -->
+    <div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addClientModalLabel">Adicionar ou Editar Cliente</h5>
+                    <h5 class="modal-title" id="addServiceModalLabel">Adicionar ou Editar Serviço</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="clientForm">
+                    <form id="serviceForm">
                         <div class="mb-3">
-                            <label for="clientName" class="form-label">Nome do Cliente</label>
-                            <input type="text" class="form-control" id="clientName" placeholder="Digite o nome do cliente" required>
+                            <label for="serviceName" class="form-label">Nome do Serviço</label>
+                            <input type="text" class="form-control" id="serviceName"
+                                placeholder="Digite o nome do serviço" required>
                         </div>
                         <div class="mb-3">
-                            <label for="clientAddress" class="form-label">Endereço</label>
-                            <input type="text" class="form-control" id="clientAddress" placeholder="Digite o endereço" required>
+                            <label for="servicePrice" class="form-label">Valor do Serviço (R$)</label>
+                            <input type="number" class="form-control" id="servicePrice"
+                                placeholder="Digite o valor do serviço" required min="1" step="0.01">
                         </div>
                         <div class="mb-3">
-                            <label for="clientPhone" class="form-label">Celular</label>
-                            <input type="tel" class="form-control" id="clientPhone" placeholder="Digite o celular" required>
+                            <label for="serviceCategory" class="form-label">Categoria</label>
+                            <select class="form-select" id="serviceCategory" required>
+                                <option value="" selected disabled>Selecione a categoria</option>
+                                <option value="Facial">Facial</option>
+                                <option value="Corporal">Corporal</option>
+                                <option value="Cabelo">Cabelo</option>
+                                <option value="Unhas">Unhas</option>
+                                <option value="Maquiagem">Maquiagem</option>
+                                <option value="Outros">Outros</option>
+                            </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveClientBtn">Salvar Cliente</button>
+                    <button type="button" class="btn btn-primary" id="saveServiceBtn">Salvar Serviço</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase e script de clientes -->
+    <!-- Firebase and Firestore Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-    
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
         const firebaseConfig = {
-            apiKey: "sua_chave",
-            authDomain: "beautynote.firebaseapp.com",
+            apiKey: "AIzaSyDxOeGrvBWBpVHtbOzzLbcGtcsMnJX_wkM",
+            authDomain: "beautynoteunipam.firebaseapp.com",
             projectId: "beautynoteunipam",
             storageBucket: "beautynoteunipam.appspot.com",
             messagingSenderId: "214095703033",
             appId: "1:214095703033:web:6001dfd40a5663b7766b28",
             measurementId: "G-YK5P8P56DB"
         };
-    
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const clientsCollection = collection(db, "clientes");
-    
+        const servicesCollection = collection(db, "services");
+
         let selectedRow = null;
-    
-        async function saveClient() {
-            const clientName = document.getElementById("clientName").value;
-            const clientAddress = document.getElementById("clientAddress").value;
-            const clientPhone = document.getElementById("clientPhone").value;
-    
+
+        async function saveService() {
+            const serviceName = document.getElementById("serviceName").value;
+            const servicePrice = document.getElementById("servicePrice").value;
+            const serviceCategory = document.getElementById("serviceCategory").value;
+
             try {
-                await addDoc(clientsCollection, {
-                    name: clientName,
-                    address: clientAddress,
-                    phone: clientPhone
+                await addDoc(servicesCollection, {
+                    name: serviceName,
+                    price: parseFloat(servicePrice),
+                    category: serviceCategory
                 });
-                alert("Cliente adicionado com sucesso!");
-                document.getElementById("clientForm").reset();
-                loadClients();
+                alert("Serviço adicionado com sucesso!");
+                document.getElementById("serviceForm").reset();
+                loadServices();
             } catch (e) {
-                console.error("Erro ao adicionar cliente: ", e);
+                console.error("Erro ao adicionar serviço: ", e);
             }
         }
-    
-        async function loadClients() {
-            const querySnapshot = await getDocs(clientsCollection);
-            const clientsTable = document.getElementById("clientsTable");
-            clientsTable.innerHTML = "";
-    
+
+        async function loadServices() {
+            const querySnapshot = await getDocs(servicesCollection);
+            const servicesTable = document.getElementById("servicesTable");
+            servicesTable.innerHTML = ""; // Limpa a tabela
+
             querySnapshot.forEach((doc) => {
-                const client = doc.data();
+                const service = doc.data();
                 const row = document.createElement("tr");
-                row.innerHTML = `<td>${client.name}</td><td>${client.address}</td><td>${client.phone}</td>`;
+                row.innerHTML = `<td>${service.name}</td><td>R$${service.price.toFixed(2)}</td><td>${service.category}</td>`;
                 row.addEventListener("click", () => selectRow(row, doc.id));
-                clientsTable.appendChild(row);
+                servicesTable.appendChild(row);
             });
         }
-    
+
         function selectRow(row, docId) {
             if (selectedRow) selectedRow.classList.remove("selected");
             selectedRow = row;
             selectedRow.classList.add("selected");
-            document.getElementById("deleteClientBtn").disabled = false;
-            document.getElementById("moveUpClientBtn").disabled = !selectedRow.previousElementSibling;
-            document.getElementById("moveDownClientBtn").disabled = !selectedRow.nextElementSibling;
+            document.getElementById("deleteServiceBtn").disabled = false;
+            document.getElementById("moveUpServiceBtn").disabled = false;
+            document.getElementById("moveDownServiceBtn").disabled = false;
             selectedRow.dataset.id = docId;
         }
-    
-        async function deleteSelectedClient() {
+
+        async function deleteSelectedService() {
             if (selectedRow) {
                 const docId = selectedRow.dataset.id;
-                await deleteDoc(doc(db, "clientes", docId));
-                alert("Cliente excluído!");
-                loadClients();
+                await deleteDoc(doc(db, "services", docId));
+                alert("Serviço excluído!");
+                loadServices();
             }
         }
-    
+
         function moveRowUp() {
             if (selectedRow && selectedRow.previousElementSibling) {
                 selectedRow.parentNode.insertBefore(selectedRow, selectedRow.previousElementSibling);
             }
         }
-    
+
         function moveRowDown() {
             if (selectedRow && selectedRow.nextElementSibling) {
                 selectedRow.parentNode.insertBefore(selectedRow.nextElementSibling, selectedRow);
             }
         }
-    
-        document.getElementById("saveClientBtn").addEventListener("click", saveClient);
-        document.getElementById("deleteClientBtn").addEventListener("click", deleteSelectedClient);
-        document.getElementById("moveUpClientBtn").addEventListener("click", moveRowUp);
-        document.getElementById("moveDownClientBtn").addEventListener("click", moveRowDown);
+
+        document.getElementById("saveServiceBtn").addEventListener("click", () => {
+            saveService();
+            const modal = document.querySelector('#addServiceModal');
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance.hide();
+        });
+
+        document.getElementById("deleteServiceBtn").addEventListener("click", deleteSelectedService);
+        document.getElementById("moveUpServiceBtn").addEventListener("click", moveRowUp);
+        document.getElementById("moveDownServiceBtn").addEventListener("click", moveRowDown);
         document.getElementById("refreshPageBtn").addEventListener("click", () => location.reload());
-        window.addEventListener("load", loadClients);
+
+        window.addEventListener("load", loadServices);
     </script>
-    
 </body>
+
 </html>
