@@ -476,3 +476,7 @@ body {
   padding: 5px;
   border-radius: 5px;
 }
+
+.nav-link:hover {
+  background-color: #d7dde4; /* Cor ao passar o mouse */
+}
