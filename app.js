@@ -36,20 +36,28 @@ app.get('/events', async (req, res) => {
     const snapshot = await eventsRef.where('date', '==', date).get();
 
     if (snapshot.empty) {
+      console.log("No events found for date:", date);
       return res.json([]);
     }
 
     const events = [];
     snapshot.forEach(doc => {
-      events.push(doc.data());
+      console.log("Document ID:", doc.id);  // Verificar ID do documento
+      console.log("Event Data:", doc.data());
+      if (doc.id) {
+        // Adiciona o ID do documento aos dados
+        events.push({ id: doc.id, ...doc.data() });
+      }
     });
 
+    console.log("Sending events with IDs to frontend:", events);
     res.json(events);
   } catch (error) {
     console.error('Error fetching events:', error);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 // Fetch available times for a specific date
 app.get('/available-times', async (req, res) => {
@@ -147,6 +155,31 @@ app.get('/bookings-summary', async (req, res) => {
     res.json(bookings);
   } catch (error) {
     console.error('Error fetching bookings summary:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Delete an event
+app.delete('/delete-event', async (req, res) => {
+  const { eventId } = req.body;
+
+  if (!eventId) {
+    return res.status(400).json({ success: false, error: 'Event ID is required' });
+  }
+
+  try {
+    const eventRef = db.collection('events').doc(eventId);
+    const doc = await eventRef.get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ success: false, error: 'Event not found' });
+    }
+
+    await eventRef.delete();
+
+    res.json({ success: true, message: 'Event deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting event:', error);
     res.status(500).send('Internal Server Error');
   }
 });

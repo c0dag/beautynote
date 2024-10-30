@@ -480,3 +480,53 @@ body {
 .nav-link:hover {
   background-color: #d7dde4; /* Cor ao passar o mouse */
 }
+.selected-day {
+  background-color: pink !important; /* Define o fundo como rosa */
+}
+#events-list p {
+  font-size: 14px !important;
+  color: #555 !important; /* Texto em cinza suave */
+  padding: 8px 0 !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  margin: 0 !important;
+}
+
+#events-list p:last-child {
+  border-bottom: none !important; /* Remover borda do último item */
+}
+
+#events-list p strong {
+  color: #9B59B6 !important; /* Destacar horário com uma cor roxa */
+}
+
+#events-list p .event-service {
+  color: #666 !important; /* Cor mais clara para o serviço */
+  font-style: italic !important;
+}
+
+#add-event-btn, #delete-event-btn {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  margin: 10px 0 !important; /* Espaçamento entre os botões */
+}
+
+.selected-event {
+  background-color: #f0e5e6 !important; /* Rosa suave */
+  border: 1px solid #e0b4b8 !important; /* Borda clara */
+  color: #a94442 !important;
+  font-weight: bold !important;
+  padding: 8px 5px !important; /* Espaçamento interno */
+  border-radius: 0 !important; /* Remover o arredondamento */
+  margin: 0 !important; /* Remover a margem */
+}
+
+
+#event-details {
+  padding: 15px 25px !important;
+}
+#add-event-btn, #delete-event-btn {
+  width: 100% !important; /* Define a largura para 100% do contêiner */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  margin: 10px 0 !important; /* Espaçamento entre os botões */
+  padding: 10px 0 !important; /* Ajusta o padding para centralizar o texto */
+  text-align: center !important; /* Centraliza o texto */
+}

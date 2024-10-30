@@ -1,3 +1,5 @@
+var selectedEventId = null;
+
 document.addEventListener('DOMContentLoaded', function () {
   // Get today's date in 'YYYY-MM-DD' format
   var today = new Date();
@@ -8,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var selectedDate = todayStr; // Initialize selectedDate to today
   var bookingsSummary = {}; // Stores booking counts per day
-  var selectedEventId = null; // Variável para armazenar o ID do evento selecionado
 
   var calendarEl = document.getElementById('calendar');
 
@@ -32,13 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
     dateClick: function (info) {
       // Handle the selected day styling
       handleDateClick(info);
-    },
-    eventClick: function (info) {
-      // Confirmação de remoção de evento
-      if (confirm('Você deseja excluir este evento?')) {
-        info.event.remove(); // Remove o evento do calendário
-        alert('Evento excluído.');
-      }
     },
   });
 
@@ -120,43 +114,40 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  // Display events and show the 'Add Event' button
   function displayEvents(events, dateStr) {
     var eventsList = document.getElementById('events-list');
     eventsList.innerHTML = '';
-
+  
     if (events.length > 0) {
       // Sort events by time
       events.sort((a, b) => a.time.localeCompare(b.time));
-
+  
       events.forEach((event) => {
+        console.log("Evento (verificando ID):", event);  // Verifica a estrutura do objeto `event`
+  
         var eventItem = document.createElement('p');
-        eventItem.textContent =
-          event.time + ' - ' + event.clientName + ' - ' + event.service;
-        eventItem.setAttribute('data-event-id', event.id); // Armazenar o ID do evento
-
+        eventItem.textContent = event.time + ' - ' + event.clientName + ' - ' + event.service;
+        eventItem.setAttribute('data-event-id', event.id);
+  
         eventItem.onclick = function () {
-          // Remover a seleção de qualquer outro evento
-          document
-            .querySelectorAll('#events-list p')
-            .forEach((p) => p.classList.remove('selected-event'));
-
-          // Adicionar a classe 'selected-event' ao evento clicado
+          document.querySelectorAll('#events-list p').forEach((p) => p.classList.remove('selected-event'));
           eventItem.classList.add('selected-event');
-
+  
           selectedEventId = event.id;
-          document.getElementById('delete-event-btn').style.display = 'block'; // Mostrar o botão de deletar
+          console.log("Evento selecionado com ID:", selectedEventId);
+          document.getElementById('delete-event-btn').style.display = 'block';
         };
-
+  
         eventsList.appendChild(eventItem);
       });
     } else {
-      eventsList.innerHTML = '<p>No events for this date.</p>';
+      eventsList.innerHTML = '<p>Sem eventos para esse dia.</p>';
     }
-
+  
     document.getElementById('add-event-btn').style.display = 'block';
   }
-
+  
+  
   // Show the event modal and populate time dropdown
   var modal = document.getElementById('event-modal');
   var btn = document.getElementById('add-event-btn');
@@ -236,58 +227,87 @@ document.addEventListener('DOMContentLoaded', function () {
           modal.style.display = 'none';
           form.reset();
           fetchEvents(selectedDate);
-          // After adding an event, update the booking summary
           fetchBookingsSummary(
             calendar.view.activeStart.toISOString().split('T')[0],
             calendar.view.activeEnd.toISOString().split('T')[0]
           );
         } else if (data.error === 'Time slot occupied') {
-          alert(
-            'The selected time slot is already occupied. Please choose a different time.'
-          );
+          alert('The selected time slot is already occupied. Please choose a different time.');
         } else {
           alert('Failed to add event.');
         }
-      });
+      }); 
   };
 
-  document.querySelectorAll('.fc-daygrid-day').forEach(function (dayCell) {
-    // Adicione um evento de clique em cada célula do dia
-    dayCell.addEventListener('click', function () {
-      // Remova a classe fc-day-active de todos os dias previamente selecionados
-      document
-        .querySelectorAll('.fc-day-active')
-        .forEach(function (activeDay) {
-          activeDay.classList.remove('fc-day-active');
-        });
-      // Adicione a classe fc-day-active ao dia clicado
-      dayCell.classList.add('fc-day-active');
-    });
-  });
+// Deletar evento
+document.getElementById('delete-event-btn').onclick = function () {
+  console.log("ID do evento para deletar:", selectedEventId); // Verifica o ID selecionado
 
-  // Função para deletar evento
-  var deleteBtn = document.getElementById('delete-event-btn');
-  deleteBtn.onclick = function () {
-    if (!selectedEventId) {
-      alert('Por favor, selecione um evento para deletar.');
-      return;
-    }
+  if (!selectedEventId) {
+    alert('Por favor, selecione um evento para deletar.');
+    return;
+  }
 
-    fetch(`/delete-event/${selectedEventId}`, {
-      method: 'DELETE',
+  fetch('/delete-event', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ eventId: selectedEventId }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert('Evento deletado com sucesso!');
+        
+        // Redefine `selectedEventId` e oculta o botão de exclusão
+        selectedEventId = null;
+        
+        
+        // Atualiza a lista de eventos para a data selecionada
+        fetchEvents(selectedDate);
+        
+        // Atualiza o resumo de reservas do calendário
+        fetchBookingsSummary(
+          calendar.view.activeStart.toISOString().split('T')[0],
+          calendar.view.activeEnd.toISOString().split('T')[0]
+        );
+      } else {
+        alert('Erro ao deletar evento: ' + (data.error || 'Erro desconhecido'));
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          alert('Evento deletado com sucesso!');
-          document
-            .getElementById('delete-event-btn')
-            .style.display = 'none'; // Esconder o botão após deletar
-          fetchEvents(selectedDate); // Atualizar os eventos para o dia selecionado
-        } else {
-          alert('Falha ao deletar evento.');
-        }
-      });
-  };
+    .catch((error) => {
+      console.error('Erro ao deletar evento:', error);
+      alert('Erro interno ao tentar deletar o evento.');
+    });
+};
+
 });
-//pendente pra adicionar verificação de console id pra ver pq que a essa bosta não funciona
+function fetchEvents(dateStr) {
+  fetch('/events?date=' + dateStr)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Eventos recebidos com IDs:", data);  // Verifica se os eventos incluem o campo `id`
+      displayEvents(data, dateStr);
+    })
+    .catch((error) => console.error("Erro ao buscar eventos:", error));
+}
+function styleDayCell(cellInfo) {
+  var dateStr = cellInfo.dateStr;
+  var dayEl = cellInfo.el; // The DOM element of the day cell
+
+  // Remove any existing status classes
+  dayEl.classList.remove(
+    'free-day',
+    'partially-booked-day',
+    'fully-booked-day',
+    'selected-day'
+  );
+
+  // Apply the 'selected-day' class only to the selected date
+  if (selectedDate && dateStr === selectedDate) {
+    dayEl.classList.add('selected-day');
+    return; // Skip further styling to keep the selected day blue
+  }
+  // código adicional para aplicar outros estilos baseado em bookings
+}
