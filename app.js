@@ -184,6 +184,22 @@ app.delete('/delete-event', async (req, res) => {
   }
 });
 
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const correct_username = 'admin';
+  const correct_password = 'admin';
+  if (correct_username === username && correct_password === password){
+    res.redirect('/index.html');
+  }
+  else{
+    res.redirect('login');
+  }
+});
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
